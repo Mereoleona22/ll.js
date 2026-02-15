@@ -1,0 +1,458 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #ec4899;
+    --accent: #06b6d4;
+    --bg-dark: #0f172a;
+    --bg-card: rgba(30, 41, 59, 0.7);
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.3);
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: 
+        radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+        linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    background-attachment: fixed;
+    padding: 24px;
+    color: var(--text-primary);
+}
+
+/* Ambient Background Animation */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    animation: ambientMove 20s ease-in-out infinite;
+}
+
+@keyframes ambientMove {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+/* TITLE */
+h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    margin-bottom: 40px;
+    background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+    text-align: center;
+    animation: titleReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes titleReveal {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* FORM */
+.weatherForm {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 480px;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cityInput {
+    flex: 1;
+    padding: 18px 24px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    outline: none;
+    font-size: 16px;
+    font-weight: 500;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px);
+    color: var(--text-primary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.3),
+        0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cityInput::placeholder {
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.cityInput:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+    background: rgba(15, 23, 42, 0.8);
+}
+
+.cityInput:focus {
+    border-color: var(--primary);
+    box-shadow: 
+        0 0 0 3px rgba(99, 102, 241, 0.2),
+        inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.getWeather {
+    padding: 18px 32px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        var(--shadow-glow);
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.getWeather::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.getWeather:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 10px 25px rgba(99, 102, 241, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.getWeather:hover::before {
+    left: 100%;
+}
+
+.getWeather:active {
+    transform: translateY(0);
+}
+
+/* CARD */
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px) saturate(180%);
+    padding: 48px 56px;
+    border-radius: 32px;
+    text-align: center;
+    min-width: 400px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        var(--shadow),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    animation: cardEnter 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+@keyframes cardEnter {
+    from {
+        opacity: 0;
+        transform: perspective(1000px) rotateX(10deg) translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: perspective(1000px) rotateX(0) translateY(0);
+    }
+}
+
+/* TEXT */
+.cityDisplay {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cityDisplay::before {
+    content: '📍';
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+.tempDisplay {
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+    margin: 8px 0;
+    background: linear-gradient(180deg, #fff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+}
+
+.tempDisplay::after {
+    content: '°';
+    position: absolute;
+    top: 8px;
+    right: -24px;
+    font-size: 2.5rem;
+    font-weight: 300;
+    -webkit-text-fill-color: var(--text-secondary);
+}
+
+.weatherEmoji {
+    font-size: 6rem;
+    margin: 20px 0;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    animation: float 6s ease-in-out infinite;
+    line-height: 1;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-15px) rotate(2deg); }
+    75% { transform: translateY(-5px) rotate(-2deg); }
+}
+
+.descDisplay {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: capitalize;
+    letter-spacing: 0.05em;
+    padding: 8px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.humidityDisplay {
+    margin-top: 16px;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: rgba(6, 182, 212, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.humidityDisplay::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent);
+}
+
+/* ERROR */
+.errorDisplay {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #fecaca;
+    background: rgba(239, 68, 68, 0.15);
+    padding: 20px 32px;
+    border-radius: 16px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    backdrop-filter: blur(10px);
+    animation: shake 0.5s cubic-bezier(0.36, 0, 0.66, -0.56);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.errorDisplay::before {
+    content: '⚠️';
+    font-size: 1.5rem;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+}
+
+/* Staggered Card Animations */
+.card > * {
+    opacity: 0;
+    animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.card > *:nth-child(1) { animation-delay: 0.3s; }
+.card > *:nth-child(2) { animation-delay: 0.4s; }
+.card > *:nth-child(3) { animation-delay: 0.5s; }
+.card > *:nth-child(4) { animation-delay: 0.6s; }
+.card > *:nth-child(5) { animation-delay: 0.7s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading Skeleton */
+.loading {
+    pointer-events: none;
+}
+
+.loading .cityDisplay,
+.loading .tempDisplay,
+.loading .descDisplay {
+    background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+    color: transparent;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* MOBILE */
+@media (max-width: 640px) {
+    body {
+        padding: 16px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 32px;
+    }
+
+    .weatherForm {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .cityInput,
+    .getWeather {
+        width: 100%;
+    }
+
+    .card {
+        min-width: unset;
+        width: 100%;
+        padding: 36px 28px;
+        border-radius: 24px;
+    }
+
+    .tempDisplay {
+        font-size: 4rem;
+    }
+
+    .tempDisplay::after {
+        right: -20px;
+        font-size: 2rem;
+    }
+
+    .weatherEmoji {
+        font-size: 5rem;
+    }
+
+    .cityDisplay {
+        font-size: 1.5rem;
+    }
+}
+
+/* Dark mode optimization */
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg-dark: #f8fafc;
+        --bg-card: rgba(255, 255, 255, 0.8);
+        --text-primary: #0f172a;
+        --text-secondary: #64748b;
+    }
+    
+    body {
+        background: 
+            radial-gradient(ellipse at top, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+            radial-gradient(ellipse at bottom, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+            linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+    
+    .cityInput {
+        background: rgba(255, 255, 255, 0.8);
+        border-color: rgba(0, 0, 0, 0.1);
+        color: var(--text-primary);
+    }
+    
+    .cityInput::placeholder {
+        color: #94a3b8;
+    }
+}

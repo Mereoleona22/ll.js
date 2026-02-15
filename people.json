@@ -1,0 +1,31 @@
+[{
+    "name": "kishore",
+    "age": 30,
+    "city": "chennai"
+},
+{
+    "name": "suresh",
+    "age": 28,
+    "city": "bangalore"
+},
+{
+    "name": "kumar",
+    "age": 32,
+    "city": "hyderabad"
+},
+{
+    "name": "raju",
+    "age": 25,
+    "city": "chennai"
+},
+{
+    "name": "rajesh",
+    "age": 29,
+    "city": "bangalore"
+},
+{
+    "name": "ramesh",
+    "age": 31,
+    "city": "hyderabad"
+}
+]
